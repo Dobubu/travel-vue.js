@@ -1,7 +1,8 @@
 <template lang="html">
   <div class="header">
     <div class="header-bg">
-      <h1>高雄旅遊資訊 {{msg}}</h1>
+      <!-- <h1>高雄旅遊資訊 {{msg}}</h1> -->
+      <h1>高雄旅遊資訊</h1>
       <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
           <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
       </select>
@@ -92,8 +93,8 @@ export default {
   mounted: function () {
     this.getData();
     this.ifHotLoading = true;
-    this.getAppData = this.msg;
-    console.log(this.msg);
+    // this.getAppData = this.msg;
+    // console.log(this.msg);
   },
   methods: {
     getData: function(){
@@ -103,7 +104,7 @@ export default {
           console.log('success appCountent');
           self.ifHotLoading = false;
           self.getAjaxData = response.data.result.records;
-          // self.addData(self.getAjaxData);
+          self.addData(self.getAjaxData);
         })
         .catch(function (error) {
           console.log(error);
@@ -213,10 +214,10 @@ export default {
     'font-awesome-icon': FontAwesomeIcon
   },
   props: {
-    msg: {
-      type: Array,
-      default: '子組件圈圈區'
-    }
+    // msg: {
+    //   type: Array,
+    //   default: [1,2,3]
+    // }
   }
 };
 </script>

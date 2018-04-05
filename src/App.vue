@@ -4,7 +4,8 @@
     <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
 
     <!-- <img src="./assets/logo.png"> -->
-    <appContent :msg='getAjaxData' v-if="flag"/>
+    <!-- <appContent :msg='getAjaxData' v-if="flag"/> -->
+    <appContent/>
 
     <!-- <router-view></router-view> -->
     
