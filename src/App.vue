@@ -6,9 +6,8 @@
     <!-- <img src="./assets/logo.png"> -->
     <appContent/>
 
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
     
-    <!-- <HelloWorld/> -->
     <appFooter/>
   </div>
 </template>
