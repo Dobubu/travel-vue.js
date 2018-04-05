@@ -4,7 +4,7 @@
     <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
 
     <!-- <img src="./assets/logo.png"> -->
-    <appContent/>
+    <appContent :msg='getAjaxData' v-if="flag"/>
 
     <!-- <router-view></router-view> -->
     
@@ -17,7 +17,7 @@ import appContent from './components/appContent'
 import appFooter from './components/appFooter'
 import HelloWorld from './components/HelloWorld'
 
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -29,26 +29,27 @@ export default {
   data: function(){
     return {
       getAjaxData: [],
+      flag: false
     }
   },
-  // mounted: function () {
-  //   this.getData();
-  // },
-  // methods: {
-  //   getData: function(){
-  //     let self = this;
-  //     axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
-  //       .then(function (response) {
-  //         console.log('success');
-  //         self.getAjaxData = response.data.result.records;
-  //         console.log(response);
-  //         console.log(self.getAjaxData);
-  //       })
-  //       .catch(function (error) {
-  //         // console.log(error);
-  //       });
-  //   }
-  // },
+  mounted: function () {
+    this.getData();
+  },
+  methods: {
+    getData: function(){
+      let self = this;
+      axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
+        .then(function (response) {
+          console.log('success appVue');
+          self.getAjaxData = response.data.result.records;
+          console.log(self.getAjaxData);
+          self.flag = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  },
 }
 </script>
 
