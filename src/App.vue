@@ -3,9 +3,8 @@
     <!-- <router-link :to="{path: '/loginSuccess'}">loginSuccess</router-link> -->
     <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
 
-    <!-- <img src="./assets/logo.png"> -->
-    <!-- <appContent :msg='getAjaxData' v-if="flag"/> -->
-    <appContent/>
+    <appContent :msg='getAjaxData' v-if="flag"/>
+    <!-- <appContent/> -->
 
     <!-- <router-view></router-view> -->
     
@@ -43,7 +42,7 @@ export default {
         .then(function (response) {
           console.log('success appVue');
           self.getAjaxData = response.data.result.records;
-          console.log(self.getAjaxData);
+          // console.log(self.getAjaxData);
           self.flag = true;
         })
         .catch(function (error) {
