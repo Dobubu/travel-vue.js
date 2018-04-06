@@ -317,7 +317,7 @@ export default {
   props: {
     msg: {
       type: Array,
-      default: "子組件區"
+      default: []
     }
   }
 };

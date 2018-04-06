@@ -3,26 +3,26 @@
     <!-- <router-link :to="{path: '/loginSuccess'}">loginSuccess</router-link> -->
     <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
 
-    <appContent :msg='getAjaxData' v-if="flag"/>
+    <!-- <appContent :msg='getAjaxData' v-if="flag"/> -->
     <!-- <appContent/> -->
 
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
     
     <appFooter/>
   </div>
 </template>
 
 <script>
+import appLogin from './components/appLogin'
 import appContent from './components/appContent'
 import appFooter from './components/appFooter'
-import HelloWorld from './components/HelloWorld'
 
 import axios from 'axios'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    appLogin,
     appContent,
     appFooter,
   },

@@ -24,8 +24,9 @@ import './assets/all.css'
 
 // page
 import login from './components/appLogin.vue';
-import loginSuccess from './components/pages/loginSuccess.vue';
-import loginError from './components/pages/loginError.vue';
+import content from './components/appContent.vue';
+// import loginSuccess from './components/pages/loginSuccess.vue';
+// import loginError from './components/pages/loginError.vue';
 
 const router = new VueRouter({
   // 使用 HTML 5 模式
@@ -39,14 +40,9 @@ const router = new VueRouter({
       component: login // 上面import名稱
     },
     {
-      path: '/loginSuccess',  
-      name: 'loginSuccess',   
-      component: loginSuccess // 上面import名稱
-    },
-    {
-      path: '/loginError',
-      name: 'loginError',
-      component: loginError   // 上面import名稱
+      path: '/appContent',  
+      name: 'appContent',   
+      component: content // 上面import名稱
     },
     // router 轉址
     { 
