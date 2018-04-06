@@ -47,7 +47,8 @@ const router = new VueRouter({
     // router 轉址
     { 
       path: '/*', 
-      redirect: '/appLogin' 
+      redirect: '/appLogin'
+      // redirect: '/appContent' 
     }
   ]
 });

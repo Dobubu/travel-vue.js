@@ -2,7 +2,7 @@
   <div :class="{'memberToggle': isMemberToggle}">
     <div class="header" >
       <div class="header-bg">
-        <!-- <h1>高雄旅遊資訊 {{msg}}</h1> -->
+        <!-- <h1>高雄旅遊資訊</h1> -->
         <h1>高雄旅遊資訊 {{msg[0].Name}}</h1>
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
@@ -20,6 +20,7 @@
           <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div>
         </div>
       </div>
+      <router-link :to="{path: '/appLogin'}">回Login</router-link>
       <div class="memberShip" v-on:click='account'>
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
       </div>
@@ -106,6 +107,7 @@ import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(solid);
 import VeeValidate from "vee-validate";
+
 
 export default {
   data() {
@@ -294,12 +296,8 @@ export default {
       self.isWrapmaskShow = false;
       self.isMemberShipListSuccessShow = false;
     },
-    formSubmitShow: function(
-      getElNameID,
-      getElPasswordID,
-      getElPhoneID,
-      getElEmailID
-    ) {
+    formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID) 
+    {
       let self = this;
       if (getElNameID && getElPasswordID && getElPhoneID && getElEmailID) {
         self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
@@ -312,9 +310,10 @@ export default {
     }
   },
   components: {
-    "font-awesome-icon": FontAwesomeIcon
+    "font-awesome-icon": FontAwesomeIcon,
   },
   props: {
+    // 自定義屬性
     msg: {
       type: Array,
       default: []

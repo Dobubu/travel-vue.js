@@ -3,12 +3,11 @@
     <!-- <router-link :to="{path: '/loginSuccess'}">loginSuccess</router-link> -->
     <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
 
-    <!-- <appContent :msg='getAjaxData' v-if="flag"/> -->
-    <!-- <appContent/> -->
+    <appContent :msg='getAjaxData' v-if="flag"/>
 
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
     
-    <appFooter/>
+    <!-- <appFooter/> -->
   </div>
 </template>
 
