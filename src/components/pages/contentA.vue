@@ -1,12 +1,12 @@
 <template lang="html">
-  <p>{{msg}}</p>
+  <p>11111111111111111111111111111s{{msg}}</p>
 </template>
 
 <script>
 export default {
   data (){
     return {
-      msg: 'loginError page 2'
+      msg: 'contentA'
     }
   }
 }

@@ -23,33 +23,48 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import './assets/all.css'
 
 // page
-import login from './components/appLogin.vue';
-import content from './components/appContent.vue';
-// import loginSuccess from './components/pages/loginSuccess.vue';
-// import loginError from './components/pages/loginError.vue';
+// import login from './components/appLogin.vue';
+// import content from './components/appContent.vue';
+// import contentA from './components/pages/contentA.vue';
+// import contentB from './components/pages/contentB.vue';
 
 const router = new VueRouter({
   // 使用 HTML 5 模式
   mode: 'history',
-  base: __dirname,
+  //base: __dirname,
   // routre 表
   routes: [
     {
-      path: '/appLogin',  
+      // path: '/app-login',  
+      path: '/',  
       name: 'appLogin',   
-      component: login // 上面import名稱
+      component: () => import('@/components/appLogin')
+      // component: login
     },
     {
+      // path: '/appContent',  
       path: '/appContent',  
       name: 'appContent',   
-      component: content // 上面import名稱
-    },
-    // router 轉址
-    { 
-      path: '/*', 
-      redirect: '/appLogin'
-      // redirect: '/appContent' 
+      component: () => import('@/components/appContent'),
+      children: [
+          {
+            path: '/appContent/contentA',
+            name: 'contentA',
+            component: () => import('@/components/pages/contentA')
+          },
+          {
+            path: '/appContent/contentB',
+            name: 'contentB',
+            component: () => import('@/components/pages/contentB')
+          }
+        ]
     }
+    // // router 轉址
+    // { 
+    //   path: '/*', 
+    //   redirect: '/appLogin'
+    //   // redirect: '/appContent' 
+    // }
   ]
 });
 

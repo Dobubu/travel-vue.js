@@ -6,7 +6,7 @@
 export default {
   data (){
     return {
-      msg: 'loginSuccess page 2'
+      msg: 'contentB'
     }
   }
 }

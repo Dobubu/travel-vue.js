@@ -2,8 +2,8 @@
   <div :class="{'memberToggle': isMemberToggle}">
     <div class="header" >
       <div class="header-bg">
-        <!-- <h1>高雄旅遊資訊</h1> -->
-        <h1>高雄旅遊資訊 {{msg[0].Name}}</h1>
+        <h1>高雄旅遊資訊</h1>
+        <!-- <h1>高雄旅遊資訊 {{msg[0].Name}}</h1> -->
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -20,8 +20,10 @@
           <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div>
         </div>
       </div>
-      <router-link :to="{path: '/appLogin'}">回Login</router-link>
-      <div class="memberShip" v-on:click='account'>
+      <router-link :to="{name: 'appLogin'}">回Login</router-link>
+      <router-link :to="{name: 'contentA'}">contentA</router-link>
+      <router-link :to="{name: 'contentB'}">contentB</router-link>
+      <div class="memberShip" @click="account">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
       </div>
     </div>
@@ -56,7 +58,7 @@
     <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
-        <form id="formMemberID" name="form1 " method="post " action=" ">
+        <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()">
           <div class="itemName"><i class="fal fa-user"></i>
             <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
             <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
@@ -79,7 +81,7 @@
             <span v-show="errors.firstByRule('email','required')">請輸入信箱</span>
             <span v-show="errors.firstByRule('email','email')">此信箱無效</span>
           </div>
-          <input id="submitID" type="submit " value="申請" v-on:click='formSubmitShow(nameVale,passwordVale,phoneVale,emailVale)'>
+                  <button id="submitID" type="submit" value="申請" >申請</button>
         </form>
       </div>
     </div>
@@ -97,6 +99,12 @@
       </div>
     </div>
     <div class="wrapmask" :class="{wrapmaskShow:isWrapmaskShow}" v-on:click='accountRemove'></div>
+
+    <button type="button" @click="goPage('contentA')">aaaaaaa</button>
+
+   <button type="button" @click="goPage('contentB')">bbbbbbb</button>
+       <router-view></router-view>
+
   </div>
 </template>
 
@@ -107,7 +115,6 @@ import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(solid);
 import VeeValidate from "vee-validate";
-
 
 export default {
   data() {
@@ -159,37 +166,40 @@ export default {
     };
   },
   mounted: function() {
-    // this.getData();
+    this.getData();
     this.ifHotLoading = true;
 
-    this.getAjaxData = this.msg;
-    this.addData(this.getAjaxData);
+    // this.getAjaxData = this.msg;
+    // this.addData(this.getAjaxData);
   },
   methods: {
-    // getData: function(){
-    //   let self = this;
-    //   axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
-    //     .then(function (response) {
-    //       console.log('success appCountent');
-    //       self.ifHotLoading = false;
-    //       self.getAjaxData = response.data.result.records;
-    //       self.addData(self.getAjaxData);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       self.ifHotLoading = false;
-    //       self.ifHotError = true;
-    //     });
-    // },
+    goPage (cname){
+      this.$router.replace({name:cname})
+    },
+    getData: function(){
+      let self = this;
+      axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
+        .then(function (response) {
+          console.log('success appCountent');
+          self.ifHotLoading = false;
+          self.getAjaxData = response.data.result.records;
+          self.addData(self.getAjaxData);
+        })
+        .catch(function (error) {
+          console.log(error);
+          self.ifHotLoading = false;
+          self.ifHotError = true;
+        });
+    },
     addData: function(ajaxData) {
       let self = this;
-      if (ajaxData) {
-        self.ifHotLoading = false;
-      } else {
-        self.ifHotLoading = false;
-        self.ifHotError = true;
-      }
-      console.log(ajaxData);
+      // if (ajaxData) {
+      //   self.ifHotLoading = false;
+      // } else {
+      //   self.ifHotLoading = false;
+      //   self.ifHotError = true;
+      // }
+      // console.log(ajaxData);
       for (var i = 0; i < ajaxData.length; i++) {
         ajaxData[i].showGMap = false;
       }
@@ -283,12 +293,20 @@ export default {
     },
     account: function() {
       let self = this;
+      self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
+      self.isWrapmaskShow = self.isWrapmaskShow == false ? true : false; // 控制背景黑 true false
+      self.cleanAccount()
+    },
+    cleanAccount() {
+            let self = this;
       self.nameVale = "";
       self.passwordVale = "";
       self.phoneVale = "";
       self.emailVale = "";
-      self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-      self.isWrapmaskShow = self.isWrapmaskShow == false ? true : false; // 控制背景黑 true false
+      //this.$nextTick(() => {
+        //this.fields.reset && this.fields.reset();
+       self.$validator.clean &&self.$validator.clean();
+      //});
     },
     accountRemove: function() {
       let self = this;
@@ -296,29 +314,42 @@ export default {
       self.isWrapmaskShow = false;
       self.isMemberShipListSuccessShow = false;
     },
-    formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID) 
+    formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID)
     {
       let self = this;
-      if (getElNameID && getElPasswordID && getElPhoneID && getElEmailID) {
-        self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-        self.isMemberShipListSuccessShow =
-          self.isMemberShipListSuccessShow == false ? true : false;
-        console.log("success 2");
-      } else {
-        alert("尚有表格未填");
-      }
+      return self.$validator.validateAll().then((result) => {
+if(result){
+
+
+
+      self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
+              self.isMemberShipListSuccessShow =
+                self.isMemberShipListSuccessShow == false ? true : false;
+              console.log("success 2");
+}
+
+      })
+
+      // if (getElNameID && getElPasswordID && getElPhoneID && getElEmailID) {
+      //   self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
+      //   self.isMemberShipListSuccessShow =
+      //     self.isMemberShipListSuccessShow == false ? true : false;
+      //   console.log("success 2");
+      // } else {
+      //   alert("尚有表格未填");
+      // }
     }
   },
   components: {
     "font-awesome-icon": FontAwesomeIcon,
   },
-  props: {
-    // 自定義屬性
-    msg: {
-      type: Array,
-      default: []
-    }
-  }
+  // props: {
+  //   // 自定義屬性
+  //   msg: {
+  //     type: Array,
+  //     default: []
+  //   }
+  // }
 };
 </script>
 
