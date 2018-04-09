@@ -19,13 +19,13 @@
           <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div>
         </div>
       </div>
-      <router-link :to="{name: 'appLogin'}">回Login</router-link>
+      <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link>
       <router-link :to="{name: 'contentA'}">contentA</router-link>
       <router-link :to="{name: 'contentB'}">contentB</router-link>
-      <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link>
-      <div class="memberShip" @click="account">
+      <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
+      <!-- <div class="memberShip" @click="account">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
-      </div>
+      </div> -->
     </div>
     <!-- <zoneInfo :msg='father' v-if="flag"/> -->
     <zoneInfoView :getDataProp='getAjaxData' :getZoneProp='clickSelectedZone'/>
@@ -59,7 +59,8 @@
     <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
-        <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()">
+        <form id="formMemberID" name="form1 " @submit.prevent="validateBeforeSubmit" data-vv-scope="form-2">
+        <!-- <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()"> -->
           <div class="itemName"><i class="fal fa-user"></i>
             <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
             <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
@@ -82,8 +83,12 @@
             <span v-show="errors.firstByRule('email','required')">請輸入信箱</span>
             <span v-show="errors.firstByRule('email','email')">此信箱無效</span>
           </div>
-                  <button id="submitID" type="submit" value="申請" >申請</button>
+          <button id="submitID" type="submit" value="申請" >申請</button>
         </form>
+      </div>
+
+      <div class="memberShip" @click="errors.clear('form-2')">
+        <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
       </div>
     </div>
     <div class="memberShipListSuccess" :class="{memberShipListSuccessShow: isMemberShipListSuccessShow}">
@@ -311,6 +316,18 @@ export default {
       self.isMemberToggle = false;
       self.isWrapmaskShow = false;
       self.isMemberShipListSuccessShow = false;
+    },
+    validateBeforeSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          // eslint-disable-next-line
+          alert('Form Submitted!');
+          this.goPage();
+          return;
+        }
+
+        alert('尚有表格未填!');
+      });
     },
     formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID)
     {
