@@ -23,10 +23,11 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import './assets/all.css'
 
 // page
-// import login from './components/appLogin.vue';
-// import content from './components/appContent.vue';
-// import contentA from './components/pages/contentA.vue';
-// import contentB from './components/pages/contentB.vue';
+import login from './components/appLogin.vue';
+import content from './components/appContent.vue';
+import zoneInfo from './components/pages/zoneInfo.vue';
+import contentA from './components/pages/contentA.vue';
+import contentB from './components/pages/contentB.vue';
 
 const router = new VueRouter({
   // 使用 HTML 5 模式
@@ -35,35 +36,44 @@ const router = new VueRouter({
   // routre 表
   routes: [
     {
-      // path: '/app-login',  
-      path: '/',  
-      name: 'appLogin',   
-      component: () => import('@/components/appLogin')
-      // component: login
+      // path: '/app-login',
+      path: '/',
+      name: 'appLogin',
+      component: login
+      // component: () => import('@/components/appLogin')
     },
     {
-      // path: '/appContent',  
-      path: '/appContent',  
-      name: 'appContent',   
-      component: () => import('@/components/appContent'),
+      // path: '/',
+      path: '/appContent',
+      name: 'appContent',
+      component: content,
+      // component: () => import('@/components/appContent'),
       children: [
           {
             path: '/appContent/contentA',
             name: 'contentA',
-            component: () => import('@/components/pages/contentA')
+            component: contentA
+            // component: () => import('@/components/pages/contentA')
           },
           {
             path: '/appContent/contentB',
             name: 'contentB',
-            component: () => import('@/components/pages/contentB')
-          }
+            component: contentB
+            // component: () => import('@/components/pages/contentB')
+          },
+          {
+            path: '/appContent/zoneInfo',
+            name: 'zoneInfo',
+            component: zoneInfo
+            // component: () => import('@/components/pages/zoneInfo')
+          },
         ]
-    }
+    },
     // // router 轉址
-    // { 
-    //   path: '/*', 
+    // {
+    //   path: '/*',
     //   redirect: '/appLogin'
-    //   // redirect: '/appContent' 
+    //   // redirect: '/appContent'
     // }
   ]
 });
@@ -79,5 +89,3 @@ new Vue({
   // app.vue 掛載並 replace index.html 原始掛載點： <div id="app"></div>
   render: h => h( App )
 })
-
-

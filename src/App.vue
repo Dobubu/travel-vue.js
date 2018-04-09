@@ -1,55 +1,24 @@
 <template>
   <div id="app" class="wrap">
-    <!-- <router-link :to="{path: '/loginSuccess'}">loginSuccess</router-link> -->
-    <!-- <router-link :to="{name: 'loginError'}">loginError</router-link> -->
-
-    <!-- <appContent :msg='getAjaxData' v-if="flag"/> -->
-    
-    <!-- <appContent/> -->
     <router-view></router-view>
-    
-    <!-- <app-footer/> -->
+    <!-- <testView :test='father'></testView> -->
   </div>
 </template>
 
 <script>
-// import appLogin from './components/appLogin'
-//import appContent from './components/appContent'
-import appFooter from './components/appFooter'
-
-import axios from 'axios'
+// import testView from './components/test'
 
 export default {
-  //name: 'App',
-  components: {
-    // appLogin,
-   // appContent,
-    appFooter
-  },
+  name: 'App',
   data: function(){
     return {
       getAjaxData: [],
       flag: false
     }
   },
-  // mounted: function () {
-  //   this.getData();
-  // },
-  // methods: {
-  //   getData: function(){
-  //     let self = this;
-  //     axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
-  //       .then(function (response) {
-  //         console.log('success appVue');
-  //         self.getAjaxData = response.data.result.records;
-  //         // console.log(self.getAjaxData);
-  //         self.flag = true;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   }
-  // },
+  components: {
+    // testView,
+  },
 }
 </script>
 

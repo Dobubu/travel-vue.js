@@ -3,7 +3,6 @@
     <div class="header" >
       <div class="header-bg">
         <h1>高雄旅遊資訊</h1>
-        <!-- <h1>高雄旅遊資訊 {{msg[0].Name}}</h1> -->
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -23,11 +22,14 @@
       <router-link :to="{name: 'appLogin'}">回Login</router-link>
       <router-link :to="{name: 'contentA'}">contentA</router-link>
       <router-link :to="{name: 'contentB'}">contentB</router-link>
+      <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link>
       <div class="memberShip" @click="account">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
       </div>
     </div>
-    <div class="content">
+    <!-- <zoneInfo :msg='father' v-if="flag"/> -->
+    <zoneInfoView :getDataProp='getAjaxData' :getZoneProp='clickSelectedZone'/>
+    <!-- <div class="content">
       <h2 id="content-areaFont" v-model='clickSelectedZone'>{{ clickSelectedZone }}</h2>
       <div class="content-infoCard-wrap">
         <div class="content-infoCard" v-for='(info, i) in zoneInfo[zoneInfoPage]'>
@@ -40,7 +42,6 @@
             </div>
           </div>
           <ul class="content-infoCard-info ">
-            <!-- <li id="infoDate">{{showGM}}{{info.showGMap}}{{i}}{{ info.Opentime }}</li> -->
             <li id="infoDate">{{ info.Opentime }}</li>
             <li class="funcGoogleMap" title="顯示googleMap" v-on:click='showGoogleMap(i)'></li>
             <li id="infoAdd" class="funcAdd">{{ info.Add }}</li>
@@ -54,7 +55,7 @@
           <li id='content-page-num' v-for='page in pagesAry' v-on:click='paging(page)'>{{ page }}</li>
         </ul>
       </div>
-    </div>
+    </div> -->
     <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
@@ -100,11 +101,10 @@
     </div>
     <div class="wrapmask" :class="{wrapmaskShow:isWrapmaskShow}" v-on:click='accountRemove'></div>
 
-    <button type="button" @click="goPage('contentA')">aaaaaaa</button>
-
-   <button type="button" @click="goPage('contentB')">bbbbbbb</button>
-       <router-view></router-view>
-
+    <!-- <button type="button" @click="goPage('contentA')">aaaaaaa</button>
+    <button type="button" @click="goPage('contentB')">bbbbbbb</button> -->
+    <!-- <router-view></router-view> -->
+    <appFooter/>
   </div>
 </template>
 
@@ -115,11 +115,15 @@ import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(solid);
 import VeeValidate from "vee-validate";
+import zoneInfoView from './pages/zoneInfo.vue';
+import appFooter from './appFooter';
 
 export default {
   data() {
     return {
-      getAjaxData: "",
+      getAjaxData: [],
+      // getAjaxData: '',
+      flag: false,
       allZone: [], // 紀錄-'所有'行政區
       noRepeatZone: [], // 紀錄-未重複的行政區
       repeatZone: [], // 紀錄-各行政區的'重複'數量
@@ -129,18 +133,18 @@ export default {
       ifSelectZone: false, //  行政區select
       ifHotSuccess: false, //  熱門行政區
       selectedZone: null,
-      clickSelectedZone: null,
-      zoneInfo: [],
-      pagesNum: 6, // 每頁顯示筆數
-      pagesShow: 0, // 紀錄-總頁數
-      pagesAry: [],
-      page: 0,
-      zoneInfoPage: 0,
-      showGM: false, // 判斷是否顯示地圖
-      showGMClick: 0, // 測試按地圖而已
+      clickSelectedZone: null,  // 綁定點選的區域名
+      // zoneInfo: [],
+      // pagesNum: 6, // 每頁顯示筆數
+      // pagesShow: 0, // 紀錄-總頁數
+      // pagesAry: [],
+      // page: 0,
+      // zoneInfoPage: 0,
+      // showGM: false, // 判斷是否顯示地圖
+      // showGMClick: 0, // 測試按地圖而已
       isMemberToggle: false,
       isWrapmaskShow: false,
-      // getAppData: [], // 測試父組件傳到子組件的data
+      dataFather: '父組件content66666', // 測試父組件傳到子組件的data
       nameVale: "",
       accountVale: "",
       passwordVale: "",
@@ -168,9 +172,6 @@ export default {
   mounted: function() {
     this.getData();
     this.ifHotLoading = true;
-
-    // this.getAjaxData = this.msg;
-    // this.addData(this.getAjaxData);
   },
   methods: {
     goPage (cname){
@@ -285,10 +286,7 @@ export default {
       console.log((self.showGMClick = self.showGMClick + 1));
 
       self.showGM = self.showGM == false ? true : false;
-      self.zoneInfo[self.zoneInfoPage][getData].showGMap =
-        self.zoneInfo[self.zoneInfoPage][getData].showGMap == false
-          ? true
-          : false;
+      self.zoneInfo[self.zoneInfoPage][getData].showGMap = self.zoneInfo[self.zoneInfoPage][getData].showGMap == false ? true : false;
       // self.showGM = false;
     },
     account: function() {
@@ -298,7 +296,7 @@ export default {
       self.cleanAccount()
     },
     cleanAccount() {
-            let self = this;
+      let self = this;
       self.nameVale = "";
       self.passwordVale = "";
       self.phoneVale = "";
@@ -318,18 +316,12 @@ export default {
     {
       let self = this;
       return self.$validator.validateAll().then((result) => {
-if(result){
-
-
-
-      self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-              self.isMemberShipListSuccessShow =
-                self.isMemberShipListSuccessShow == false ? true : false;
-              console.log("success 2");
-}
-
-      })
-
+      if(result){
+        self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
+        self.isMemberShipListSuccessShow = self.isMemberShipListSuccessShow == false ? true : false;
+        console.log("success 2");
+      }
+    })
       // if (getElNameID && getElPasswordID && getElPhoneID && getElEmailID) {
       //   self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
       //   self.isMemberShipListSuccessShow =
@@ -341,15 +333,10 @@ if(result){
     }
   },
   components: {
+    "appFooter": appFooter,
+    "zoneInfoView": zoneInfoView,
     "font-awesome-icon": FontAwesomeIcon,
   },
-  // props: {
-  //   // 自定義屬性
-  //   msg: {
-  //     type: Array,
-  //     default: []
-  //   }
-  // }
 };
 </script>
 
