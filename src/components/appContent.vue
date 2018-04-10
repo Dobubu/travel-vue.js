@@ -5,6 +5,7 @@
         <h1>高雄旅遊資訊</h1>
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
+            <!-- <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone"><router-link :to="{name: 'zoneInfo'}" >{{ zone }}</router-link></option> -->
         </select>
       </div>
       <div class="header-select">
@@ -16,19 +17,23 @@
           <div>查無資料!!!!</div>
         </div>
         <div id="hotSuccess" class="header-select-area-wrap">
-          <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div>
+          <!-- <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div> -->
+          <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange">{{ zone }}</router-link>
         </div>
       </div>
       <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link>
       <router-link :to="{name: 'contentA'}">contentA</router-link>
-      <router-link :to="{name: 'contentB'}">contentB</router-link>
-      <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
+      <router-link :to="{name: 'contentB'}">contentB</router-link> -->
+      <!-- <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
+      
       <!-- <div class="memberShip" @click="account">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
       </div> -->
     </div>
+
     <!-- <zoneInfo :msg='father' v-if="flag"/> -->
-    <zoneInfoView :getDataProp='getAjaxData' :getZoneProp='clickSelectedZone'/>
+    <!-- <zoneInfoView :getDataProp='getAjaxData' :getZoneProp='clickSelectedZone'/> -->
+
     <!-- <div class="content">
       <h2 id="content-areaFont" v-model='clickSelectedZone'>{{ clickSelectedZone }}</h2>
       <div class="content-infoCard-wrap">
@@ -108,7 +113,9 @@
 
     <!-- <button type="button" @click="goPage('contentA')">aaaaaaa</button>
     <button type="button" @click="goPage('contentB')">bbbbbbb</button> -->
-    <!-- <router-view></router-view> -->
+
+    <router-view :getDataPageProp='zoneInfo' :getDataProp='thisZone' :getZoneProp='clickSelectedZone'></router-view>
+
     <appFooter/>
   </div>
 </template>
@@ -133,20 +140,21 @@ export default {
       noRepeatZone: [], // 紀錄-未重複的行政區
       repeatZone: [], // 紀錄-各行政區的'重複'數量
       sortedZone: [], // 紀錄-repeatZone'由大至小'排序
+      thisZone: [], // 紀錄-該區要顯示的資料
       ifHotLoading: true, //  資料loading中
       ifHotError: false, //  資料錯誤
       ifSelectZone: false, //  行政區select
       ifHotSuccess: false, //  熱門行政區
       selectedZone: null,
       clickSelectedZone: null,  // 綁定點選的區域名
-      // zoneInfo: [],
-      // pagesNum: 6, // 每頁顯示筆數
-      // pagesShow: 0, // 紀錄-總頁數
-      // pagesAry: [],
-      // page: 0,
-      // zoneInfoPage: 0,
-      // showGM: false, // 判斷是否顯示地圖
-      // showGMClick: 0, // 測試按地圖而已
+      zoneInfo: [],
+      pagesNum: 6, // 每頁顯示筆數
+      pagesShow: 0, // 紀錄-總頁數
+      pagesAry: [],
+      page: 0,
+      zoneInfoPage: 0,
+      showGM: false, // 判斷是否顯示地圖
+      showGMClick: 0, // 測試按地圖而已
       isMemberToggle: false,
       isWrapmaskShow: false,
       dataFather: '父組件content66666', // 測試父組件傳到子組件的data
@@ -199,13 +207,6 @@ export default {
     },
     addData: function(ajaxData) {
       let self = this;
-      // if (ajaxData) {
-      //   self.ifHotLoading = false;
-      // } else {
-      //   self.ifHotLoading = false;
-      //   self.ifHotError = true;
-      // }
-      // console.log(ajaxData);
       for (var i = 0; i < ajaxData.length; i++) {
         ajaxData[i].showGMap = false;
       }
@@ -241,7 +242,7 @@ export default {
       });
       self.sortedZone.length = 4;
       var elHotZoneAry = document.querySelectorAll(".header-select-area"); // 抓元素-4個熱門行政區(div)
-      console.log(elHotZoneAry.length);
+      console.log('熱門區數量 = ' + elHotZoneAry.length);
     },
     showDataZone: function(country) {
       let self = this;
@@ -255,6 +256,7 @@ export default {
           info.push(self.getAjaxData[i]);
         }
       }
+      self.thisZone = info;
       self.pageAry(info); // 該區資料丟到func做分頁
     },
     pageAry: function(getZoneInfo) {
@@ -274,7 +276,6 @@ export default {
         }
       }
       this.zoneInfo = pageInfoAry; // 該區資料格式，做成分頁，並丟回原ary
-
       // 塞分頁
       var pages = [];
       for (var i = 1; i <= this.pagesShow; i++) {
