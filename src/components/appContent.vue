@@ -20,7 +20,8 @@
           <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange">{{ zone }}</router-link>
         </div>
       </div>
-      <router-link :to="{name: 'appLogin'}">回Login</router-link>
+      
+      <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link> -->
       <!-- <router-link :to="{name: 'contentA'}">contentA</router-link> -->
       <!-- <router-link :to="{name: 'contentB'}">contentB</router-link> -->
       <!-- <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
@@ -287,9 +288,6 @@ export default {
       self.thisZone = info;
       self.pageAry(info); // 該區資料丟到func做分頁
 
-      this.$router.push({name: 'zoneInfo'})
-    },
-    changeRout() {
       this.$router.push({name: 'zoneInfo'});
     },
     pageAry: function(getZoneInfo) {
