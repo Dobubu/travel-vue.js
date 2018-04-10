@@ -62,6 +62,7 @@ export default {
       // 用ary存取分頁資料
       this.pagesShow = Math.ceil(getZoneInfo.length / this.pagesNum);
       console.log(getZoneInfo.length);
+      console.log(this.pagesShow+'頁');
       var pageInfoAry = []; // 紀錄分頁Data
       for (var i = 0; i < this.pagesShow; i++) {
         var lastPage = (i + 1) * this.pagesNum - 1;
@@ -111,8 +112,10 @@ export default {
   },
   watch:{
     getZoneProp(newValue, oldValue) {
+      let self = this;
       if(newValue != oldValue){
-        this.zoneInfoPage = 0;
+        self.zoneInfoPage = 0;
+        self.pageAry(self.getDataProp);
       }
     }
   },

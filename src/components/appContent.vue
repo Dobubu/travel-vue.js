@@ -5,7 +5,6 @@
         <h1>高雄旅遊資訊</h1>
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
-            <!-- <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone"><router-link :to="{name: 'zoneInfo'}" >{{ zone }}</router-link></option> -->
         </select>
       </div>
       <div class="header-select">
@@ -21,14 +20,14 @@
           <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange">{{ zone }}</router-link>
         </div>
       </div>
-      <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link>
-      <router-link :to="{name: 'contentA'}">contentA</router-link>
-      <router-link :to="{name: 'contentB'}">contentB</router-link> -->
+      <router-link :to="{name: 'appLogin'}">回Login</router-link>
+      <!-- <router-link :to="{name: 'contentA'}">contentA</router-link> -->
+      <!-- <router-link :to="{name: 'contentB'}">contentB</router-link> -->
       <!-- <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
-      
-      <!-- <div class="memberShip" @click="account">
+
+      <div class="memberShip" @click="account">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
-      </div> -->
+      </div>
     </div>
 
     <!-- <zoneInfo :msg='father' v-if="flag"/> -->
@@ -64,37 +63,66 @@
     <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
-        <form id="formMemberID" name="form1 " @submit.prevent="validateBeforeSubmit" data-vv-scope="form-2">
-        <!-- <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()"> -->
+        <form id="formMemberID" @submit.prevent="validateForm('form-1')" data-vv-scope="form-1">
+          <!-- <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()"> -->
           <div class="itemName"><i class="fal fa-user"></i>
             <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
-            <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
-            <span v-show="errors.firstByRule('name','regex')">限輸入中文和英文</span>
+            <span v-show="errors.firstByRule('form-1.name','form-1.required')">請輸入您的姓名</span>
+            <span v-show="errors.firstByRule('form-1.name','form-1.regex')">限輸入中文和英文</span>
           </div>
           <div class="itemPassword">
-            <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
-            <span v-show="errors.firstByRule('password','required')">請輸入密碼</span>
-            <span v-show="errors.firstByRule('password','max')">長度為6碼</span>
+            <!-- <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
+            <span v-show="errors.firstByRule('form-1.password','form-1.required')">請輸入密碼</span>
+            <span v-show="errors.firstByRule('form-1.password','form-1.max')">長度為6碼</span> -->
+            <input name="password" v-validate="'required|max:6'" type="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
+            <span v-show="errors.has('form-1.password')">{{ errors.first('form-1.password') }}</span>
           </div>
           <div class="itemPhone">
             <input v-validate="'required|min:10|max:10|numeric'" name="phone" type="text" placeholder="手機" v-model="phoneVale">
-            <span v-show="errors.firstByRule('phone','required')">請輸入手機號碼</span>
-            <span v-show="errors.firstByRule('phone','max')">長度為10碼</span>
-            <span v-show="errors.firstByRule('phone','min')">長度為10碼</span>
-            <span v-show="errors.firstByRule('phone','numeric')">限輸入數字</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.required')">請輸入手機號碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.max')">長度為10碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.min')">長度為10碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.numeric')">限輸入數字</span>
           </div>
           <div class="itemEmail">
             <input v-validate="'required|email'" name="email" type="text" placeholder="Email" v-model="emailVale">
-            <span v-show="errors.firstByRule('email','required')">請輸入信箱</span>
-            <span v-show="errors.firstByRule('email','email')">此信箱無效</span>
+            <span v-show="errors.firstByRule('form-1.email','form-1.required')">請輸入信箱</span>
+            <span v-show="errors.firstByRule('form-1.email','form-1.email')">此信箱無效</span>
           </div>
           <button id="submitID" type="submit" value="申請" >申請</button>
+          <button type="button" name="button" @click="errors.clear('form-1')">Clear</button>
         </form>
+
+        <!-- <form @submit.prevent="validateForm('form-1')" class="columns column is-multiline is-12" data-vv-scope="form-1">
+            <legend>Form 1</legend>
+            <div class="column is-12">
+                <p class="control has-icon has-icon-right">
+                    <input name="email" v-validate="'required|email'" type="text" placeholder="Email">
+                    <i v-show="errors.has('form-1.email')"></i>
+                    <span v-show="errors.has('form-1.email')">{{ errors.first('form-1.email') }}</span>
+                </p>
+            </div>
+            <div class="column is-12">
+                <label class="label">Password</label>
+                <p class="control has-icon has-icon-right">
+                    <input name="password" v-validate="'required|min:6'" :class="{'input': true, 'is-danger': errors.has('form-1.password') }" type="password" placeholder="Password">
+                    <i v-show="errors.has('form-1.password')" class="fa fa-warning"></i>
+                    <span v-show="errors.has('form-1.password')" class="help is-danger">{{ errors.first('form-1.password') }}</span>
+                </p>
+            </div>
+            <div class="column is-12">
+                <p class="control">
+                    <button class="button is-primary" type="submit" name="button">Sign up</button>
+                    <button class="button is-danger" type="button" name="button" @click="errors.clear('form-1')">Clear</button>
+                </p>
+            </div>
+        </form> -->
+
       </div>
 
-      <div class="memberShip" @click="errors.clear('form-2')">
+      <!-- <div class="memberShip" @click="errors.clear('form-2')">
         <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
-      </div>
+      </div> -->
     </div>
     <div class="memberShipListSuccess" :class="{memberShipListSuccessShow: isMemberShipListSuccessShow}">
       <div class="memberShipHeader memberShipHeaderSuccess ">申請成功！</div>
@@ -258,6 +286,11 @@ export default {
       }
       self.thisZone = info;
       self.pageAry(info); // 該區資料丟到func做分頁
+
+      this.$router.push({name: 'zoneInfo'})
+    },
+    changeRout() {
+      this.$router.push({name: 'zoneInfo'});
     },
     pageAry: function(getZoneInfo) {
       var pagesStr = "";
@@ -318,16 +351,12 @@ export default {
       self.isWrapmaskShow = false;
       self.isMemberShipListSuccessShow = false;
     },
-    validateBeforeSubmit() {
-      this.$validator.validateAll().then((result) => {
+    validateForm(scope) {
+      this.$validator.validateAll(scope).then((result) => {
         if (result) {
           // eslint-disable-next-line
-          alert('Form Submitted!');
-          this.goPage();
-          return;
+          alert('資料匯入成功!');
         }
-
-        alert('尚有表格未填!');
       });
     },
     formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID)

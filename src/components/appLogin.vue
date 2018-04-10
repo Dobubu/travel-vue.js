@@ -45,7 +45,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
-          alert('Form Submitted!');
+          alert('資料匯入成功!');
           this.goPage();
           return;
         }
@@ -54,7 +54,7 @@ export default {
       });
     },
     goPage() {
-        
+
     },
   }
 };
