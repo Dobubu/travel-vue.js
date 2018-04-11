@@ -29,6 +29,7 @@ import content from './components/appContent.vue';
 import zoneInfo from './components/pages/zoneInfo.vue';
 import contentA from './components/pages/contentA.vue';
 import contentB from './components/pages/contentB.vue';
+import test from './components/test.vue';
 
 const router = new VueRouter({
   // 使用 HTML 5 模式
@@ -70,6 +71,11 @@ const router = new VueRouter({
           },
         ]
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: test
+    },
     // // router 轉址
     // {
     //   path: '/*',
@@ -82,12 +88,16 @@ const router = new VueRouter({
 
 let store = new Vuex.Store({
   state: {
-    totalPrice: 0
+    totalPrice: 0,
+    loginName: '',
   },
   getters: {
     getTotal (state) {
       return state.totalPrice
-    }
+    },
+    getLoginName (state) {
+      return state.loginName
+    },
   },
   mutations: {
     increment (state, price) {
@@ -95,6 +105,9 @@ let store = new Vuex.Store({
     },
     decrement (state, price) {
       state.totalPrice -= price
+    },
+    updateMessage (state, message) {
+      state.loginName = message
     }
   },
   actions: {

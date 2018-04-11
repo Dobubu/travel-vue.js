@@ -2,7 +2,8 @@
   <div :class="{'memberToggle': isMemberToggle}">
     <div class="header" >
       <div class="header-bg">
-        <h1>高雄旅遊資訊</h1>
+        <!-- <h1>高雄旅遊資訊，您好</h1> -->
+        <h1>高雄旅遊資訊，{{loginName}}您好</h1>
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -20,7 +21,7 @@
           <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange" :key="zone">{{ zone }}</router-link>
         </div>
       </div>
-      
+
       <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link> -->
       <!-- <router-link :to="{name: 'contentA'}">contentA</router-link> -->
       <!-- <router-link :to="{name: 'contentB'}">contentB</router-link> -->
@@ -382,6 +383,11 @@ export default {
     "zoneInfoView": zoneInfoView,
     "font-awesome-icon": FontAwesomeIcon,
   },
+  computed: {
+    loginName () {
+      return this.$store.getters.getLoginName
+    }
+  }
 };
 </script>
 

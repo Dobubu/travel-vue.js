@@ -2,7 +2,7 @@
   <div id="app" class="wrap">
     <router-view></router-view>
 
-    <div>{{totalPrice}}</div>
+    <div>總共:${{totalPrice2}}</div>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     }
   },
   computed: {
-    totalPrice () {
+    totalPrice2 () {
       return this.$store.getters.getTotal
     }
   }

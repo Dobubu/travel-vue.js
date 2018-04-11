@@ -5,7 +5,7 @@
             <div class="memberInput">
               <form id="formMemberID" @submit.prevent="validateBeforeSubmit">
                   <div class="itemName"><i class="fal fa-user"></i>
-                    <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" v-model="name" type="text" placeholder="姓名">
+                    <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" v-model="messageName" type="text" placeholder="姓名">
                     <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
                     <span v-show="errors.firstByRule('name','regex')">限輸入中文和英文</span>
                   </div>
@@ -37,7 +37,7 @@
 export default {
   name: 'form-example',
   data: () => ({
-    name: '',
+    // name: '',
     password: ''
   }),
   methods: {
@@ -49,10 +49,19 @@ export default {
           this.$router.push({name: 'appContent'});
           return;
         }
-
         alert('尚有表格未填!');
       });
     },
+  },
+  computed: {
+    messageName: {
+      get () {
+        return this.$store.state.loginName
+      },
+      set (value) {
+        this.$store.commit('updateMessage', value)
+      }
+    }
   }
 };
 </script>
