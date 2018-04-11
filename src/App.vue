@@ -1,12 +1,12 @@
 <template>
   <div id="app" class="wrap">
     <router-view></router-view>
-    <!-- <testView :test='father'></testView> -->
+
+    <div>{{totalPrice}}</div>
   </div>
 </template>
 
 <script>
-// import testView from './components/test'
 
 export default {
   name: 'App',
@@ -16,9 +16,11 @@ export default {
       flag: false
     }
   },
-  components: {
-    // testView,
-  },
+  computed: {
+    totalPrice () {
+      return this.$store.getters.getTotal
+    }
+  }
 }
 </script>
 

@@ -17,7 +17,7 @@
         </div>
         <div id="hotSuccess" class="header-select-area-wrap">
           <!-- <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div> -->
-          <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange">{{ zone }}</router-link>
+          <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange" :key="zone">{{ zone }}</router-link>
         </div>
       </div>
       

@@ -1,16 +1,28 @@
 <template lang="html">
-  <!-- <p>{{ test }}</p> -->
+  <div>
+      {{'名称：' + name}}
+      {{'价格：' + price}}
+      <button @click="addOne">加一</button>
+      <button @click="minusOne">减一</button>
+  </div>
 </template>
 
 <script>
-export default {
-  // props: {
-  //   // 自定義屬性
-  //   test: {
-  //     type: String,
-  //     default: '子組件'
-  //   }
-  // }
+export default{
+  data () {
+    return {
+      name: '苹果',
+      price: 5
+    }
+  },
+  methods: {
+    addOne () {
+      this.$store.dispatch('increase', this.price)
+    },
+    minusOne () {
+      this.$store.dispatch('decrease', this.price)
+    }
+  }
 }
 </script>
 

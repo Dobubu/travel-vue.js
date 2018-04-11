@@ -8,7 +8,7 @@ import axios from 'axios'
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import solid from '@fortawesome/fontawesome-free-solid'
-// import routers  from './routers'
+import Vuex from 'vuex'
 
 Vue.config.productionTip = false
 
@@ -16,6 +16,7 @@ Vue.config.productionTip = false
 Vue.use(VueRouter);
 Vue.use(VeeValidate);
 fontawesome.library.add(solid);
+Vue.use(Vuex);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -79,6 +80,34 @@ const router = new VueRouter({
 });
 
 
+let store = new Vuex.Store({
+  state: {
+    totalPrice: 0
+  },
+  getters: {
+    getTotal (state) {
+      return state.totalPrice
+    }
+  },
+  mutations: {
+    increment (state, price) {
+      state.totalPrice += price
+    },
+    decrement (state, price) {
+      state.totalPrice -= price
+    }
+  },
+  actions: {
+    increase (context, price) {
+      context.commit('increment', price)
+    },
+    decrease (context, price) {
+      context.commit('decrement', price)
+    },
+  }
+})
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -86,6 +115,7 @@ new Vue({
   template: '<App/>',
   // router 掛載設定
   router,
+  store,
   // app.vue 掛載並 replace index.html 原始掛載點： <div id="app"></div>
   render: h => h( App )
 })
