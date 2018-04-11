@@ -88,35 +88,19 @@ const router = new VueRouter({
 
 let store = new Vuex.Store({
   state: {
-    totalPrice: 0,
     loginName: '',
   },
   getters: {
-    getTotal (state) {
-      return state.totalPrice
-    },
     getLoginName (state) {
       return state.loginName
     },
   },
   mutations: {
-    increment (state, price) {
-      state.totalPrice += price
-    },
-    decrement (state, price) {
-      state.totalPrice -= price
-    },
     updateMessage (state, message) {
       state.loginName = message
     }
   },
   actions: {
-    increase (context, price) {
-      context.commit('increment', price)
-    },
-    decrease (context, price) {
-      context.commit('decrement', price)
-    },
   }
 })
 

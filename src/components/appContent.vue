@@ -3,7 +3,8 @@
     <div class="header" >
       <div class="header-bg">
         <!-- <h1>高雄旅遊資訊，您好</h1> -->
-        <h1>高雄旅遊資訊，{{loginName}}您好</h1>
+        <h1>高雄旅遊資訊</h1>
+        <h2 v-if="ifLoginName">{{loginName}}，您好</h2>
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -175,6 +176,7 @@ export default {
       ifHotError: false, //  資料錯誤
       ifSelectZone: false, //  行政區select
       ifHotSuccess: false, //  熱門行政區
+      ifLoginName: false,
       selectedZone: null,
       clickSelectedZone: null,  // 綁定點選的區域名
       zoneInfo: [],
@@ -385,7 +387,10 @@ export default {
   },
   computed: {
     loginName () {
-      return this.$store.getters.getLoginName
+      if(this.$store.getters.getLoginName){
+        this.ifLoginName = true;
+        return this.$store.getters.getLoginName
+      }
     }
   }
 };
