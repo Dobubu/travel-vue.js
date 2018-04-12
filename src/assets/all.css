@@ -234,11 +234,11 @@ a {
   background: url("Hero.png");
   width: 1024px;
   height: 380px;
+  color: #FFFFFF;
 }
 .header-bg h1 {
   font-family: "微軟正黑體";
   font-size: 40px;
-  color: #FFFFFF;
   letter-spacing: 3.89px;
   text-align: center;
 }

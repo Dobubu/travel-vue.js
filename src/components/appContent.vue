@@ -4,8 +4,8 @@
       <div class="header-bg">
         <!-- <h1>高雄旅遊資訊，您好</h1> -->
         <h1>高雄旅遊資訊</h1>
-        <!-- <h2>{{loginName}}，您好</h2> -->
-        <h2 v-if="ifLoginName">{{loginName}}，您好</h2>
+        <h2>{{loginName}}</h2>
+        <!-- <h2 v-if="ifLoginName">{{loginName}}，您好</h2> -->
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -344,25 +344,6 @@ export default {
         }
       });
     },
-    formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID)
-    {
-      let self = this;
-      return self.$validator.validateAll().then((result) => {
-      if(result){
-        self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-        self.isMemberShipListSuccessShow = self.isMemberShipListSuccessShow == false ? true : false;
-        console.log("success 2");
-      }
-    })
-      // if (getElNameID && getElPasswordID && getElPhoneID && getElEmailID) {
-      //   self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-      //   self.isMemberShipListSuccessShow =
-      //     self.isMemberShipListSuccessShow == false ? true : false;
-      //   console.log("success 2");
-      // } else {
-      //   alert("尚有表格未填");
-      // }
-    }
   },
   components: {
     "appFooter": appFooter,
@@ -372,15 +353,15 @@ export default {
   computed: {
     loginName () {
       // console.log(this.$store.getters.getLoginName);
-      // return this.$store.getters.getLoginName
+      return this.$store.getters.getLoginName
 
-      if(this.$store.getters.getLoginName !== ''){
-        this.ifLoginName = true;
-        console.log(this.$store.getters.getLoginName);
-        return this.$store.getters.getLoginName
-      }
-    }
-  }
+      // if(this.$store.getters.getLoginName !== ''){
+      //   this.ifLoginName = true;
+      //   console.log(this.$store.getters.getLoginName);
+      //   return this.$store.getters.getLoginName
+      // }
+    },
+  },
 };
 </script>
 

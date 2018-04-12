@@ -92,7 +92,9 @@ let store = new Vuex.Store({
   },
   getters: {
     getLoginName (state) {
-      return state.loginName
+      if(state.loginName !== ''){
+        return state.loginName + '，您好'
+      }
     },
   },
   mutations: {

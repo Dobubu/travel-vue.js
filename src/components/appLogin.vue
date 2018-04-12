@@ -9,13 +9,13 @@
                     <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
                     <span v-show="errors.firstByRule('name','regex')">限輸入中文和英文</span>
                   </div>
-                  <div class="itemPassword">
+                  <!-- <div class="itemPassword">
                     <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)">
                     <span v-show="errors.firstByRule('password','required')">請輸入您的密碼</span>
                     <span v-show="errors.firstByRule('password','max')">密碼長度為6碼</span>
-                  </div>
-                  <!-- <button type="submit" value="登入">登入</button> -->
-                  <router-link :to="{path: '/appContent'}" tag="input" value="登入" type="submit">登入</router-link>
+                  </div> -->
+                  <button type="submit" value="登入">登入</button>
+                  <!-- <router-link :to="{path: '/appContent'}" tag="input" value="登入" type="submit">登入</router-link> -->
               </form>
 
 
@@ -59,6 +59,7 @@ export default {
         return this.$store.state.loginName
       },
       set (value) {
+        console.log('in set login')
         this.$store.commit('updateMessage', value)
       }
     }
