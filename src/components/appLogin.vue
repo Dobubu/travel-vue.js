@@ -14,8 +14,8 @@
                     <span v-show="errors.firstByRule('password','required')">請輸入您的密碼</span>
                     <span v-show="errors.firstByRule('password','max')">密碼長度為6碼</span>
                   </div>
-                  <button type="submit" value="登入">登入</button>
-                  <!-- <router-link :to="{path: '/appContent'}" tag="input" value="登入" type="submit">登入</router-link> -->
+                  <!-- <button type="submit" value="登入">登入</button> -->
+                  <router-link :to="{path: '/appContent'}" tag="input" value="登入" type="submit">登入</router-link>
               </form>
 
 

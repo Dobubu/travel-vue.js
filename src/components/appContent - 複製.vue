@@ -67,39 +67,61 @@
     <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
-        <form id="formMemberID" @submit.prevent="validateForm">
-            <!-- <input type="email" name="email" v-validate="'required|email'" v-model="emailVale" placeholder="Email">
-            <span>{{ errors.first('email') }}</span>
-
-            <input name="phone" v-model="phoneVale" v-validate="'required|numeric'" type="text" placeholder="Phone">
-            <span>{{ errors.first('phone') }}</span> -->
-
-            <div class="itemName">
-              <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
-              <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
-              <span v-show="errors.firstByRule('name','regex')">限輸入中文和英文</span>
-            </div>
-            <div class="itemPassword">
-              <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
-              <span v-show="errors.firstByRule('password','required')">請輸入密碼</span>
-              <span v-show="errors.firstByRule('password','max')">長度為6碼</span>
-            </div>
-            <div class="itemPhone">
-              <input v-validate="'required|min:10|max:10|numeric'" name="phone" type="text" placeholder="手機" v-model="phoneVale">
-              <span v-show="errors.firstByRule('phone','required')">請輸入手機號碼</span>
-              <span v-show="errors.firstByRule('phone','max')">長度為10碼</span>
-              <span v-show="errors.firstByRule('phone','min')">長度為10碼</span>
-              <span v-show="errors.firstByRule('phone','numeric')">限輸入數字</span>
-            </div>
-            <div class="itemEmail">
-              <input v-validate="'required|email'" name="email" type="text" placeholder="Email" v-model="emailVale">
-              <span v-show="errors.firstByRule('email','required')">請輸入信箱</span>
-              <span v-show="errors.firstByRule('email','email')">此信箱無效</span>
-            </div>
-
-            <button class="button is-primary" type="submit" name="button">Sign up</button>
-            <button class="button is-danger" type="button" name="button" @click="cleanAccount">Clear</button>
+        <form id="formMemberID" @submit.prevent="validateForm('form-1')" data-vv-scope="form-1">
+          <!-- <form id="formMemberID" name="form1 " @submit.prevent="formSubmitShow()"> -->
+          <div class="itemName"><i class="fal fa-user"></i>
+            <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
+            <span v-show="errors.firstByRule('form-1.name','form-1.required')">請輸入您的姓名</span>
+            <span v-show="errors.firstByRule('form-1.name','form-1.regex')">限輸入中文和英文</span>
+          </div>
+          <div class="itemPassword">
+            <!-- <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
+            <span v-show="errors.firstByRule('form-1.password','form-1.required')">請輸入密碼</span>
+            <span v-show="errors.firstByRule('form-1.password','form-1.max')">長度為6碼</span> -->
+            <input name="password" v-validate="'required|max:6'" type="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
+            <span v-show="errors.has('form-1.password')">{{ errors.first('form-1.password') }}</span>
+          </div>
+          <div class="itemPhone">
+            <input v-validate="'required|min:10|max:10|numeric'" name="phone" type="text" placeholder="手機" v-model="phoneVale">
+            <span v-show="errors.firstByRule('form-1.phone','form-1.required')">請輸入手機號碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.max')">長度為10碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.min')">長度為10碼</span>
+            <span v-show="errors.firstByRule('form-1.phone','form-1.numeric')">限輸入數字</span>
+          </div>
+          <div class="itemEmail">
+            <input v-validate="'required|email'" name="email" type="text" placeholder="Email" v-model="emailVale">
+            <span v-show="errors.firstByRule('form-1.email','form-1.required')">請輸入信箱</span>
+            <span v-show="errors.firstByRule('form-1.email','form-1.email')">此信箱無效</span>
+          </div>
+          <button id="submitID" type="submit" value="申請" >申請</button>
+          <button type="button" name="button" @click="errors.clear('form-1')">Clear</button>
         </form>
+
+        <!-- <form @submit.prevent="validateForm('form-1')" class="columns column is-multiline is-12" data-vv-scope="form-1">
+            <legend>Form 1</legend>
+            <div class="column is-12">
+                <p class="control has-icon has-icon-right">
+                    <input name="email" v-validate="'required|email'" type="text" placeholder="Email">
+                    <i v-show="errors.has('form-1.email')"></i>
+                    <span v-show="errors.has('form-1.email')">{{ errors.first('form-1.email') }}</span>
+                </p>
+            </div>
+            <div class="column is-12">
+                <label class="label">Password</label>
+                <p class="control has-icon has-icon-right">
+                    <input name="password" v-validate="'required|min:6'" :class="{'input': true, 'is-danger': errors.has('form-1.password') }" type="password" placeholder="Password">
+                    <i v-show="errors.has('form-1.password')" class="fa fa-warning"></i>
+                    <span v-show="errors.has('form-1.password')" class="help is-danger">{{ errors.first('form-1.password') }}</span>
+                </p>
+            </div>
+            <div class="column is-12">
+                <p class="control">
+                    <button class="button is-primary" type="submit" name="button">Sign up</button>
+                    <button class="button is-danger" type="button" name="button" @click="errors.clear('form-1')">Clear</button>
+                </p>
+            </div>
+        </form> -->
+
       </div>
     </div>
     <div class="memberShipListSuccess" :class="{memberShipListSuccessShow: isMemberShipListSuccessShow}">
@@ -164,7 +186,7 @@ export default {
       showGMClick: 0, // 測試按地圖而已
       isMemberToggle: false,
       isWrapmaskShow: false,
-      dataFather: '父組件content', // 測試父組件傳到子組件的data
+      dataFather: '父組件content66666', // 測試父組件傳到子組件的data
       nameVale: "",
       accountVale: "",
       passwordVale: "",
@@ -310,20 +332,17 @@ export default {
       self.isWrapmaskShow = self.isWrapmaskShow == false ? true : false; // 控制背景黑 true false
       self.cleanAccount();
     },
-    cleanAccount: function() {
+    cleanAccount() {
       let self = this;
-      self.nameVale = null;
+      console.log('active cleanAccount');
+      self.nameVale = "";
       self.passwordVale = "";
       self.phoneVale = "";
       self.emailVale = "";
-      self.$validator.reset();
-      console.log('in cleanAccount');
-      // self.errors.clear();
-        
-      // this.$nextTick(() => {
+      //this.$nextTick(() => {
         //this.fields.reset && this.fields.reset();
-          // self.$validator.clean && self.$validator.clean();
-      // });
+       self.$validator.clean &&self.$validator.clean();
+      //});
     },
     accountRemove: function() {
       let self = this;
@@ -331,17 +350,13 @@ export default {
       self.isWrapmaskShow = false;
       self.isMemberShipListSuccessShow = false;
     },
-    validateForm() {
-      let self = this;
-      self.$validator.validateAll().then((result) => {
+    validateForm(scope) {
+      this.$validator.validateAll(scope).then((result) => {
         if (result) {
           // eslint-disable-next-line
           alert('資料匯入成功!');
-          self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
-          self.isMemberShipListSuccessShow = self.isMemberShipListSuccessShow == false ? true : false;
-        }else {
-          alert('尚有表格未填!');
         }
+        alert('尚有表格未填!');
       });
     },
     formSubmitShow: function(getElNameID, getElPasswordID, getElPhoneID, getElEmailID)
