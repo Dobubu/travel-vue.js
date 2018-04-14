@@ -1,11 +1,10 @@
 <template lang="html">
-  <div :class="{'memberToggle': isMemberToggle}">
+  <div class="wrap" :class="{'memberToggle': isMemberToggle}">
     <div class="header" >
       <div class="header-bg">
         <!-- <h1>高雄旅遊資訊，您好</h1> -->
         <h1>高雄旅遊資訊</h1>
         <h2>{{loginName}}</h2>
-        <!-- <h2 v-if="ifLoginName">{{loginName}}，您好</h2> -->
         <select id="IdArea" v-model='selectedZone' v-on:change='showDataZone(selectedZone)'>
             <option v-if='ifSelectZone' v-for="zone in noRepeatZone" :value="zone">{{ zone }}</option>
         </select>
@@ -68,12 +67,6 @@
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
         <form id="formMemberID" @submit.prevent="validateForm">
-            <!-- <input type="email" name="email" v-validate="'required|email'" v-model="emailVale" placeholder="Email">
-            <span>{{ errors.first('email') }}</span>
-
-            <input name="phone" v-model="phoneVale" v-validate="'required|numeric'" type="text" placeholder="Phone">
-            <span>{{ errors.first('phone') }}</span> -->
-
             <div class="itemName">
               <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
               <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
@@ -98,7 +91,7 @@
             </div>
 
             <button class="button is-primary" type="submit" name="button">Sign up</button>
-            <button class="button is-danger" type="button" name="button" @click="cleanAccount">Clear</button>
+            <!-- <button class="button is-danger" type="button" name="button" @click="cleanAccount">Clear</button> -->
         </form>
       </div>
     </div>
@@ -151,7 +144,6 @@ export default {
       ifHotError: false, //  資料錯誤
       ifSelectZone: false, //  行政區select
       ifHotSuccess: false, //  熱門行政區
-      ifLoginName: false,
       selectedZone: null,
       clickSelectedZone: null,  // 綁定點選的區域名
       zoneInfo: [],
@@ -352,14 +344,7 @@ export default {
   },
   computed: {
     loginName () {
-      // console.log(this.$store.getters.getLoginName);
       return this.$store.getters.getLoginName
-
-      // if(this.$store.getters.getLoginName !== ''){
-      //   this.ifLoginName = true;
-      //   console.log(this.$store.getters.getLoginName);
-      //   return this.$store.getters.getLoginName
-      // }
     },
   },
 };

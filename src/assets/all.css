@@ -213,7 +213,7 @@ a {
 .header {
   min-height: 515px;
   position: relative;
-  flex-grow: 0;
+  flex-grow: 1;
 }
 .header:after {
   display: block;
