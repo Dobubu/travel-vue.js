@@ -214,6 +214,7 @@ a {
   min-height: 515px;
   position: relative;
   flex-grow: 1;
+  width: 1024px;
 }
 .header:after {
   display: block;
@@ -231,7 +232,6 @@ a {
   background-repeat: no-repeat;
   padding-top: 90px;
   box-sizing: border-box;
-  background: url("Hero.png");
   width: 1024px;
   height: 380px;
   color: #FFFFFF;
@@ -360,6 +360,7 @@ a {
 .content {
   padding: 65px 35px 41px;
   flex-grow: 2;
+  width: 954px;
 }
 
 h2#content-areaFont {
@@ -457,7 +458,7 @@ h2#infoImgZone {
   cursor: pointer;
 }
 .content-infoCard-info li:nth-child(2):before {
-  background: url("google_maps.png");
+  background: url("icon_map.png");
   width: 20px;
   height: 20px;
 }
@@ -509,6 +510,7 @@ h2#infoImgZone {
   box-sizing: border-box;
   padding-top: 18px;
   flex-grow: 0;
+  width: 1024px;
 }
 
 .memberToggle .memberShipList {
@@ -531,6 +533,12 @@ h2#infoImgZone {
   border: 1px solid #dedfe0;
   border-radius: 6px;
 }
+
+.memberShipList{
+  visibility: visible;
+  opacity: 1;
+}
+
 .memberShipList span, .memberShipListSuccess span {
   color: red;
   margin: -5px auto 8px;
@@ -553,6 +561,29 @@ h2#infoImgZone {
   padding: 20px;
 }
 
+.memberBtn {
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 11px 10px 12px;
+}
+
+.memberLoginBtn {
+  background-color: #f79b25;
+  margin-top: 20px;
+}
+.memberLoginBtn:hover {
+  background-color: #b06506;
+}
+
+.memberAccountBtn {
+  background-color: #559AC8;
+}
+.memberAccountBtn:hover {
+  background-color: #2d658a;
+}
+
 input, button {
   box-sizing: border-box;
   border-radius: 5px;
@@ -563,7 +594,8 @@ input, button {
   width: 100%;
   margin-bottom: 10px;
 }
-input:last-child, button:last-child {
+
+/* input:last-child, button:last-child {
   margin-top: 20px;
   color: #fff;
   background-color: #f79b25;
@@ -585,7 +617,7 @@ input[type="submit"], button {
 }
 input[type="submit"]:hover, button:hover {
   background-color: #b06506;
-}
+} */
 
 .memberShipListSuccess {
   visibility: hidden;

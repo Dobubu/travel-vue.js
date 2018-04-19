@@ -24,63 +24,63 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import './assets/all.css'
 
 // page
-import login from './components/appLogin.vue';
-import content from './components/appContent.vue';
-import zoneInfo from './components/pages/zoneInfo.vue';
+import login from './components/login.vue';
+import account from './components/account.vue';
+import content from './components/content.vue';
+import zoneInfo from './components/pages/content-zoneInfo.vue';
 import contentA from './components/pages/contentA.vue';
 import contentB from './components/pages/contentB.vue';
-import test from './components/test.vue';
 
 const router = new VueRouter({
   // 使用 HTML 5 模式
-  mode: 'history',
-  //base: __dirname,
+  // mode: 'history',
+  // base: __dirname,
   // routre 表
   routes: [
     {
-      // path: '/app-login',
-      path: '/',
-      name: 'appLogin',
-      component: login
+      path: '/login',
+      // path: '/',
+      name: 'login',
+      component: login,
       // component: () => import('@/components/appLogin')
     },
     {
+      path: '/account',
+      name: 'account',
+      component: account,
+      // component: () => import('./components/account')
+    },
+    {
       // path: '/',
-      path: '/appContent',
-      name: 'appContent',
+      path: '/content',
+      name: 'content',
       component: content,
       // component: () => import('@/components/appContent'),
       children: [
           {
-            path: '/appContent/contentA',
+            path: '/content/contentA',
             name: 'contentA',
             component: contentA
             // component: () => import('@/components/pages/contentA')
           },
           {
-            path: '/appContent/contentB',
+            path: '/content/contentB',
             name: 'contentB',
             component: contentB
             // component: () => import('@/components/pages/contentB')
           },
           {
-            path: '/appContent/zoneInfo',
+            path: '/content/zoneInfo/:zoneId/:pageId',
             name: 'zoneInfo',
             component: zoneInfo
             // component: () => import('@/components/pages/zoneInfo')
           },
         ]
     },
-    {
-      path: '/test',
-      name: 'test',
-      component: test
-    },
-    // // router 轉址
+    // router 轉址
     // {
     //   path: '/*',
-    //   redirect: '/appLogin'
-    //   // redirect: '/appContent'
+    //   redirect: '/appContent'
     // }
   ]
 });
@@ -103,12 +103,15 @@ let store = new Vuex.Store({
     }
   },
   actions: {
+    updateMessage (context, msgName) {
+      context.commit('updateMessage',msgName)
+    }
   }
 })
 
 
 /* eslint-disable no-new */
-new Vue({
+window.APP=new Vue({
   el: '#app',
   components: { App },
   template: '<App/>',

@@ -1,5 +1,6 @@
 <template lang="html">
-  <div class="wrap" :class="{'memberToggle': isMemberToggle}">
+  <!-- <div class="wrap" :class="{'memberToggle': isMemberToggle}"> -->
+  <div class="wrap" >
     <div class="header" >
       <div class="header-bg">
         <!-- <h1>高雄旅遊資訊，您好</h1> -->
@@ -19,8 +20,11 @@
         </div>
         <div id="hotSuccess" class="header-select-area-wrap">
           <!-- <div :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area area-purple">{{ zone }}</div> -->
-          <router-link tag="div" :to="{name: 'zoneInfo'}" :data-area='zone' v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click.native='showDataZone(zone)' class="header-select-area area-orange" :key="zone">{{ zone }}</router-link>
+          <div  v-if='ifHotSuccess' v-for="zone in sortedZone" v-on:click='showDataZone(zone)' class="header-select-area" >{{ zone }}</div>
         </div>
+        <!-- <router-link tag="div" :to="{name: 'zoneInfo'}"  v-if='ifHotSuccess'></router-link> -->
+
+        <!-- <input class="button is-primary" type="text" value="更改登入名稱" v-model="loginName2" @keydown="changdName"/> -->
       </div>
 
       <!-- <router-link :to="{name: 'appLogin'}">回Login</router-link> -->
@@ -28,9 +32,9 @@
       <!-- <router-link :to="{name: 'contentB'}">contentB</router-link> -->
       <!-- <router-link :to="{name: 'zoneInfo'}">zoneInfo</router-link> -->
 
-      <div class="memberShip" @click="account">
-        <font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>
-      </div>
+      <!--<div class="memberShip" @click="account">-->
+        <!--<font-awesome-icon :icon="['fas','user-circle']" size="2x" title="會員登入"/>-->
+      <!--</div>-->
     </div>
 
     <!-- <zoneInfo :msg='father' v-if="flag"/> -->
@@ -63,17 +67,17 @@
         </ul>
       </div>
     </div> -->
-    <div class="memberShipList">
+    <!-- <div class="memberShipList">
       <div class="memberShipHeader">會員帳號申請！</div>
       <div class="memberInput">
         <form id="formMemberID" @submit.prevent="validateForm">
             <div class="itemName">
-              <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="nameVale">
+              <input v-validate="{required:true,regex: /[\u4e00-\u9fa5 a-z A-Z]+$/}" name="name" type="text" placeholder="姓名" v-model="loginData.email">
               <span v-show="errors.firstByRule('name','required')">請輸入您的姓名</span>
               <span v-show="errors.firstByRule('name','regex')">限輸入中文和英文</span>
             </div>
             <div class="itemPassword">
-              <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="passwordVale">
+              <input v-validate="'required|max:6'" type="password" name="password" placeholder="密碼 (密碼長度為6，需包含英數字)" v-model="loginData.password">
               <span v-show="errors.firstByRule('password','required')">請輸入密碼</span>
               <span v-show="errors.firstByRule('password','max')">長度為6碼</span>
             </div>
@@ -91,7 +95,6 @@
             </div>
 
             <button class="button is-primary" type="submit" name="button">Sign up</button>
-            <!-- <button class="button is-danger" type="button" name="button" @click="cleanAccount">Clear</button> -->
         </form>
       </div>
     </div>
@@ -108,12 +111,14 @@
           <br>信箱: <span id="emailShowID">{{emailVale}}</span></p>
       </div>
     </div>
-    <div class="wrapmask" :class="{wrapmaskShow:isWrapmaskShow}" v-on:click='accountRemove'></div>
+    <div class="wrapmask" :class="{wrapmaskShow:isWrapmaskShow}" v-on:click='accountRemove'></div> -->
 
     <!-- <button type="button" @click="goPage('contentA')">aaaaaaa</button>
     <button type="button" @click="goPage('contentB')">bbbbbbb</button> -->
 
     <router-view :getDataPageProp='zoneInfo' :getDataProp='thisZone' :getZoneProp='clickSelectedZone'></router-view>
+    <!-- <router-link tag="div" :to="{name: 'zoneInfo'}"  v-if='ifHotSuccess'></router-link> -->
+
 
     <appFooter/>
   </div>
@@ -126,12 +131,18 @@ import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import solid from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(solid);
 import VeeValidate from "vee-validate";
-import zoneInfoView from './pages/zoneInfo.vue';
+import zoneInfoView from './pages/content-zoneInfo.vue';
 import appFooter from './appFooter';
 
 export default {
   data() {
     return {
+      loginFormat: {
+        email: '',
+        password: ''
+      },
+      loginData: {},
+      loginName2:'',
       getAjaxData: [],
       // getAjaxData: '',
       flag: false,
@@ -181,15 +192,36 @@ export default {
       isMemberShipListSuccessShow: false
     };
   },
-  mounted: function() {
+  mounted: function () {
     this.getData();
     this.ifHotLoading = true;
   },
+  updated: function(){
+    var elHotZoneAry = document.querySelectorAll('.header-select-area');
+    console.log(elHotZoneAry.length);
+    for (var i = 0; i < elHotZoneAry.length; i++) {
+        if (i == 0) {
+            elHotZoneAry[i].className += " area-purple";
+        } else if (i == 1) {
+            elHotZoneAry[i].className += " area-orange";
+        } else if (i == 2) {
+            elHotZoneAry[i].className += " area-yellow";
+        } else if (i == 3) {
+            elHotZoneAry[i].className += " area-blue";
+        }
+    }
+  },
   methods: {
-    goPage (cname){
-      this.$router.replace({name:cname})
+    setLoginData (){
+      this.loginData = window.$.extend(true, {}, this.loginFormat)
     },
-    getData: function(){
+    changdName (){
+      this.$store.dispatch('updateMessage', this.loginName2);
+    },
+    goPage(cname) {
+      this.$router.replace({ name: cname})
+    },
+    getData: function () {
       let self = this;
       axios.get('https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97')
         .then(function (response) {
@@ -204,7 +236,7 @@ export default {
           self.ifHotError = true;
         });
     },
-    addData: function(ajaxData) {
+    addData: function (ajaxData) {
       let self = this;
       for (var i = 0; i < ajaxData.length; i++) {
         ajaxData[i].showGMap = false;
@@ -212,7 +244,7 @@ export default {
       this.filterZone(ajaxData);
       this.filterHotZone(ajaxData);
     },
-    filterZone: function(ajaxData) {
+    filterZone: function (ajaxData) {
       let self = this;
       for (var i = 0; i < ajaxData.length; i++) {
         this.allZone.push(ajaxData[i].Zone);
@@ -222,28 +254,24 @@ export default {
         this.ifHotSuccess = true;
       }
       this.noRepeatZone.push("--請選擇行政區--");
-      this.allZone.forEach(function(value) {
+      this.allZone.forEach(function (value) {
         if (self.noRepeatZone.indexOf(value) == -1) {
           self.noRepeatZone.push(value);
         }
       });
     },
-    filterHotZone: function(ajaxData) {
+    filterHotZone: function (ajaxData) {
       let self = this;
-      this.allZone.forEach(function(item, index, array) {
-        self.repeatZone[item] = self.repeatZone[item]
-          ? self.repeatZone[item] + 1
-          : 1;
+      this.allZone.forEach(function (item, index, array) {
+        self.repeatZone[item] = self.repeatZone[item] ? self.repeatZone[item] + 1 : 1;
       });
       // console.log(this.repeatZone);
-      this.sortedZone = Object.keys(this.repeatZone).sort(function(a, b) {
+      this.sortedZone = Object.keys(this.repeatZone).sort(function (a, b) {
         return self.repeatZone[b] - self.repeatZone[a];
       });
       self.sortedZone.length = 4;
-      var elHotZoneAry = document.querySelectorAll(".header-select-area"); // 抓元素-4個熱門行政區(div)
-      console.log('熱門區數量 = ' + elHotZoneAry.length);
     },
-    showDataZone: function(country) {
+    showDataZone: function (country) {
       let self = this;
       this.clickSelectedZone = country;
       console.log(country);
@@ -258,9 +286,9 @@ export default {
       self.thisZone = info;
       self.pageAry(info); // 該區資料丟到func做分頁
 
-      this.$router.push({name: 'zoneInfo'});
+      this.$router.push({ name: 'zoneInfo' ,params: {zoneId:country ,pageId:'1'}});
     },
-    pageAry: function(getZoneInfo) {
+    pageAry: function (getZoneInfo) {
       var pagesStr = "";
       console.log(getZoneInfo);
       // 用ary存取分頁資料
@@ -284,25 +312,25 @@ export default {
       }
       this.pagesAry = pages;
     },
-    paging: function(getPage) {
+    paging: function (getPage) {
       this.zoneInfoPage = getPage - 1;
     },
-    showGoogleMap: function(getData) {
-      let self = this;
-      console.log(self.zoneInfo[self.zoneInfoPage][getData]);
-      console.log((self.showGMClick = self.showGMClick + 1));
+    // showGoogleMap: function (getData) {
+    //   let self = this;
+    //   console.log(self.zoneInfo[self.zoneInfoPage][getData]);
+    //   console.log((self.showGMClick = self.showGMClick + 1));
 
-      self.showGM = self.showGM == false ? true : false;
-      self.zoneInfo[self.zoneInfoPage][getData].showGMap = self.zoneInfo[self.zoneInfoPage][getData].showGMap == false ? true : false;
-      // self.showGM = false;
-    },
-    account: function() {
+    //   self.showGM = self.showGM == false ? true : false;
+    //   self.zoneInfo[self.zoneInfoPage][getData].showGMap = self.zoneInfo[self.zoneInfoPage][getData].showGMap == false ? true : false;
+    //   // self.showGM = false;
+    // },
+    account: function () {
       let self = this;
       self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
       self.isWrapmaskShow = self.isWrapmaskShow == false ? true : false; // 控制背景黑 true false
       self.cleanAccount();
     },
-    cleanAccount: function() {
+    cleanAccount: function () {
       let self = this;
       self.nameVale = null;
       self.passwordVale = "";
@@ -310,14 +338,8 @@ export default {
       self.emailVale = "";
       self.$validator.reset();
       console.log('in cleanAccount');
-      // self.errors.clear();
-        
-      // this.$nextTick(() => {
-        //this.fields.reset && this.fields.reset();
-          // self.$validator.clean && self.$validator.clean();
-      // });
     },
-    accountRemove: function() {
+    accountRemove: function () {
       let self = this;
       self.isMemberToggle = false;
       self.isWrapmaskShow = false;
@@ -327,12 +349,11 @@ export default {
       let self = this;
       self.$validator.validateAll().then((result) => {
         if (result) {
-          // eslint-disable-next-line
           alert('資料匯入成功!');
           self.isMemberToggle = self.isMemberToggle == false ? true : false; // 控制帳號申請 true false
           self.isMemberShipListSuccessShow = self.isMemberShipListSuccessShow == false ? true : false;
-        }else {
-          alert('尚有表格未填!');
+        } else {
+          alert('資料有誤!');
         }
       });
     },
@@ -343,7 +364,7 @@ export default {
     "font-awesome-icon": FontAwesomeIcon,
   },
   computed: {
-    loginName () {
+    loginName() {
       return this.$store.getters.getLoginName
     },
   },

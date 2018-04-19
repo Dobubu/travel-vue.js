@@ -52,6 +52,7 @@ export default {
     let self = this;
     if(self.getDataPageProp.length > 0){
       self.pageAry(self.getDataProp);
+      console.log(self.getDataPageProp);
     }else {
       console.log('無資料');
     }
@@ -119,6 +120,14 @@ export default {
       }
     }
   },
+  computed:{
+    zoneId (){
+      return this.$route.params.zoneId
+    },
+    pageId (){
+      return this.$route.params.pageId
+    },
+  }
 }
 </script>
 
