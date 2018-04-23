@@ -163,8 +163,8 @@ export default {
       pagesAry: [],
       page: 0,
       zoneInfoPage: 0,
-      showGM: false, // 判斷是否顯示地圖
-      showGMClick: 0, // 測試按地圖而已
+      // showGM: false, // 判斷是否顯示地圖
+      // showGMClick: 0, // 測試按地圖而已
       isMemberToggle: false,
       isWrapmaskShow: false,
       dataFather: '父組件content', // 測試父組件傳到子組件的data

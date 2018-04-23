@@ -51,8 +51,8 @@ const router = new VueRouter({
       // component: () => import('./components/account')
     },
     {
-      // path: '/',
-      path: '/content',
+      path: '/',
+      // path: '/content',
       name: 'content',
       component: content,
       // component: () => import('@/components/appContent'),

@@ -12,9 +12,10 @@
               <h2 id="infoImgZone">{{ info.Zone }}</h2>
             </div>
           </div>
+          <p v-show='false'>{{showGM}}</p>
           <ul class="content-infoCard-info ">
-            <li id="infoDate">{{showGM}}{{info.showGMap}}{{i}}{{ info.Opentime }}</li>
-            <!-- <li id="infoDate">{{ info.Opentime }}</li> -->
+            <!-- <li id="infoDate">{{showGM}}{{info.showGMap}}{{i}}{{ info.Opentime }}</li> -->
+            <li id="infoDate">{{ info.Opentime }}</li>
             <li class="funcGoogleMap" title="顯示googleMap" v-on:click='showGoogleMap(i)'></li>
             <li id="infoAdd" class="funcAdd">{{ info.Add }}</li>
             <li id="infoTel">{{ info.Tel }}</li>
@@ -45,7 +46,6 @@ export default {
       page: 0,
       zoneInfoPage: 0,
       showGM: false, // 判斷是否顯示地圖
-      showGMClick: 0, // 測試按地圖而已
     };
   },
   mounted: function() {
@@ -89,12 +89,8 @@ export default {
     },
     showGoogleMap: function(getData) {
       let self = this;
-      console.log(self.zoneInfo[self.zoneInfoPage][getData]);
-      console.log((self.showGMClick = self.showGMClick + 1));
-
       self.showGM = self.showGM == false ? true : false;
       self.zoneInfo[self.zoneInfoPage][getData].showGMap = self.zoneInfo[self.zoneInfoPage][getData].showGMap == false ? true : false;
-      // self.showGM = false;
     },
   },
   props: {
