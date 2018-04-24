@@ -1,7 +1,9 @@
 <template lang="html">
     <div class="content">
-      <!-- <p style="text-align:center;">{{getDataProp}} {{getZoneProp}}zoneInfo</p> -->
-      <h2 id="content-areaFont">{{ getZoneProp }}</h2>
+      <div class="content-areaFont-Wrap" v-if='contentTitle'>
+          <h2 id="content-areaFont">{{ getZoneProp }}</h2>
+          <h3 class="content-areaAmount">共{{getDataProp.length}}筆</h3>
+      </div>
       <div class="content-infoCard-wrap">
         <div class="content-infoCard" v-for='(info, i) in getDataPageProp[zoneInfoPage]'>
           <div class="content-infoCard-img" :class="{'changeImgMap': info.showGMap}">
@@ -40,6 +42,7 @@ export default {
       getAjaxData: "",
       clickSelectedZone: null, // 綁定點選的區域名
       zoneInfo: [],
+      contentTitle: false,
       pagesNum: 6, // 每頁顯示筆數
       pagesShow: 0, // 紀錄-總頁數
       pagesAry: [],
@@ -52,7 +55,8 @@ export default {
     let self = this;
     if(self.getDataPageProp.length > 0){
       self.pageAry(self.getDataProp);
-      console.log(self.getDataPageProp);
+      console.log('有資料');
+      self.contentTitle = true;
     }else {
       console.log('無資料');
     }

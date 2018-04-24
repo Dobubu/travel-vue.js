@@ -363,10 +363,22 @@ a {
   width: 954px;
 }
 
+.content-areaFont-Wrap {
+  position: relative;
+}
+
 h2#content-areaFont {
   font-size: 36px;
   text-align: center;
   margin-bottom: 24px;
+}
+
+.content-areaAmount {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 18px;
+  transform: translateY(-50%);
 }
 
 .content-infoCard-wrap {
