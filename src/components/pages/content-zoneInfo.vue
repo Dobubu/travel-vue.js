@@ -8,7 +8,7 @@
         <div class="content-infoCard" v-for='(info, i) in getDataPageProp[zoneInfoPage]'>
           <div class="content-infoCard-img" :class="{'changeImgMap': info.showGMap}">
             <img :src='info.Picture1'>
-            <iframe width="100%" height="200" frameborder="0" allowfullscreen :src="'http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=' + info.Add + '&z=16&output=embed&t='"></iframe>
+            <iframe width="100%" height="200" frameborder="0" allowfullscreen :src="'https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=' + info.Add + '&z=16&output=embed&t='"></iframe>
             <div class="infoGradient ">
               <h2 id="infoImgName">{{ info.Name }}</h2>
               <h2 id="infoImgZone">{{ info.Zone }}</h2>
